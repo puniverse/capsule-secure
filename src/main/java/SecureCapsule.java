@@ -70,7 +70,7 @@ public class SecureCapsule extends Capsule {
             final Permissions permissions = new Permissions();
 
             permissions.add(new PropertyPermission("*", "read"));
-            permissions.add(new FilePermission(getAppCache().toString(), "read"));
+            permissions.add(new FilePermission(getAppDir().toString(), "read"));
             //permissions.add(new RuntimePermission("shutdownHooks"));
             // Maven capsule:
             permissions.add(new RuntimePermission("getenv." + ENV_CAPSULE_REPOS));
@@ -112,11 +112,11 @@ public class SecureCapsule extends Capsule {
     }
 
     @Override
-    protected ProcessBuilder prelaunch(List<String> args) {
-        final ProcessBuilder pb = super.prelaunch(args);
+    protected ProcessBuilder prelaunch(List<String> jvmArgs, List<String> args) {
+        final ProcessBuilder pb = super.prelaunch(jvmArgs, args);
 
         final Path exec = Paths.get(pb.command().get(0));
-        verify(!(exec.startsWith(getAppCache()) || exec.startsWith(getWritableAppCache())),
+        verify(!(exec.startsWith(getAppDir()) || exec.startsWith(getWritableAppCache())),
                 "Local command: " + exec); // image must be outside writable area
 
         return pb;
