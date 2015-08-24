@@ -116,8 +116,7 @@ public class SecureCapsule extends Capsule {
         final ProcessBuilder pb = super.prelaunch(jvmArgs, args);
 
         final Path exec = Paths.get(pb.command().get(0));
-        verify(!(exec.startsWith(getAppDir()) || exec.startsWith(getWritableAppCache())),
-                "Local command: " + exec); // image must be outside writable area
+        verify(!(exec.startsWith(appDir()) || exec.startsWith(getWritableAppCache())), "Local command: " + exec); // image must be outside writable area
 
         return pb;
     }
@@ -136,16 +135,4 @@ public class SecureCapsule extends Capsule {
     private String toJarUrl(String relPath) {
         return "jar:file:" + jarFile.toAbsolutePath() + "!/" + relPath;
     }
-
-//    private static boolean isDescendant(ClassLoader cl, ClassLoader ancestor) {
-//        while (cl != null && cl != ancestor)
-//            cl = cl.getParent();
-//        return cl != null;
-//    }
-//
-//    private static boolean isDescendant(ClassLoader cl, Class<? extends ClassLoader> ancestor) {
-//        while (cl != null && !ancestor.isInstance(cl))
-//            cl = cl.getParent();
-//        return cl != null;
-//    }
 }
