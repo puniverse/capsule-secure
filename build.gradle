@@ -40,7 +40,7 @@ jar {
     from { configurations.runtime.collect { zipTree(it) } }
     manifest {
         attributes(
-	    'Main-Class'  : mainClassName,
+            'Main-Class'  : mainClassName,
             'Caplets'     : 'SecureCapsule'
         )
     }
@@ -59,7 +59,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 ///////// Publish Artifacts
 apply plugin: 'maven'
 apply plugin: 'signing'
-    
+
 artifacts {
     archives jar
     archives sourcesJar
@@ -78,8 +78,8 @@ uploadArchives {
 
             repository(
                 url: (isReleaseVersion ?
-	                        "https://oss.sonatype.org/service/local/staging/deploy/maven2" :
-	                        "https://oss.sonatype.org/content/repositories/snapshots")) {
+                        "https://oss.sonatype.org/service/local/staging/deploy/maven2" :
+                        "https://oss.sonatype.org/content/repositories/snapshots")) {
                 // User and Password are taken from ~/.gradle/gradle.properties
                 authentication(userName: project.sonatypeUsername, password: project.sonatypePassword)
             }
